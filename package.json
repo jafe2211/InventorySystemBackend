@@ -13,5 +13,13 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.2",
+    "body-parser": "^2.2.0",
+    "cli-color": "^2.0.4",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "mysql2": "^3.14.1"
   }
 }
