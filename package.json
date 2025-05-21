@@ -1,0 +1,17 @@
+{
+  "name": "inventorysystem",
+  "version": "0.0.1",
+  "description": "An Inventory management System made to maneg the technical inventory",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && node dist/index.js",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "author": "Jafe2211",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
