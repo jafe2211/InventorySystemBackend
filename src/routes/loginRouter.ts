@@ -12,16 +12,6 @@ declare module "express-session" {
     }
   }
 
-/*loginRouter.post("/test", (req, res) => {
-    req.session.user = "Login test successful";
-    req.session.save()
-    
-    res.status(200).json({
-        message: "Login test successful",
-        data: req.session
-    });
-}); */
-
 loginRouter.post("/register", async (req, res) => {
     log("Register request received");
     if(!requestChecker.checkForDataInBody(req, ["username", "password", "email"]) == true){
@@ -59,10 +49,14 @@ loginRouter.post("/login", async (req, res) => {
     res.status(200);
 }); 
 
-/*loginRouter.post("/logout", (req, res) => {
-    var user2 = new user("test", "test", 0, "{}", false);
-    res.status(200).json({
-        message: "Logout successful",
-        data: user2})
-
-}); */
+loginRouter.post("/logout", (req, res) => {
+    log("Logout request received");
+    req.session.destroy((err) => {
+        if (err) {
+            log("Error while destroying session: " + err, "error");
+            res.status(500).json({ message: "Internal server error" });
+        } else {
+            res.status(200).json({ message: "Logged out successfully" });
+        }
+    });
+}); 
