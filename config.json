@@ -1,17 +1,1 @@
-{
-  "settings": {
-    "logToFile": false,
-    "logToConsole": true,
-    "logPath": "./Logs",
-    "appPort": 3000,
-    "dbHost": "database.jafe2211.de",
-    "dbUser": "InventarUser",
-    "dbPass": "FeX@O6m@Jd3)69GL",
-    "dbBase": "InventarSystem"
-  },
-  "Security": {
-    "SECRET_KEY": "P,}g29{zhzv1ySvS]lf4NyteHU1ouA0U98g7A]vw2E(}72EIVg/uXN6psP5xNiy7RD[abcs,&[0nN.nO,VbzD0y641r8coIhvY7y",
-    "SECRET_IV": "AgOv]gJS/mlIJZh8U1mmn4ntz,2HHymy]rmQrNkz.nlrIhuzfEslwJ.(qgd7Qp5Qr0d5EWADajkyva(wHM.Ua9U((J4Q9BeMgAH{",
-    "encryptionMethod": "aes-256-cbc"
-  }
-}   
+
