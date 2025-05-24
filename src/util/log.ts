@@ -60,6 +60,13 @@ export function log(message, type?: string) {
                     }
                   })
             }
+            if(type == "debug") {
+                fs.appendFile("./Logs/" + TimeString + ".txt", `[DEBU] [${Time.toLocaleTimeString('de-DE',)}] [DEBUG] ${message}\n`, (err) => {
+                    if (err) {
+                      log("Error while tring to write in Log file: " + err, "error");
+                    }
+                  })
+            }
   }
 
 
@@ -76,6 +83,9 @@ export function log(message, type?: string) {
     }
     if(type == "warn") {
         console.log(clc.yellow(`[${Time.toLocaleTimeString('de-DE',)}] [WARN] ${message}`));
+    }
+    if(type == "debug") {
+        console.log(clc.green(`[${Time.toLocaleTimeString('de-DE',)}] [DEBUG] ${message}`));
     }
   }
 }

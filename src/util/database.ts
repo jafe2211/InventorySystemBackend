@@ -18,7 +18,6 @@ export class Database {
     }
 
     static async query(sql:string){
-        log("test");
         const [rows] = await pool.promise().query(sql);
         return [rows];
     }
