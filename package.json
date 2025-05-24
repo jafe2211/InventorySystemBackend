@@ -16,9 +16,12 @@
   },
   "dependencies": {
     "@types/express": "^5.0.2",
+    "@types/express-session": "^1.18.1",
     "body-parser": "^2.2.0",
     "cli-color": "^2.0.4",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
     "mysql2": "^3.14.1"
   }
