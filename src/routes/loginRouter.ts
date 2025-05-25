@@ -1,4 +1,5 @@
 import express from "express";
+
 import { requestChecker } from "../util/requestChecker";
 import { log } from "../util/log";
 import { DatabaseHandlerLogin } from "../util/databaseHandlerLogin";
@@ -11,7 +12,7 @@ declare module "express-session" {
         user: user;
     }
   }
-  
+
 loginRouter.post("/login", async (req, res) => {
     log("Login request received");
     if(!requestChecker.checkForDataInBody(req, ["username", "password"]) == true){

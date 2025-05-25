@@ -1,4 +1,5 @@
 import mysql2 from "mysql2";
+
 import { ConfigHandler } from './configHandler';
 import { log } from "./log";
 

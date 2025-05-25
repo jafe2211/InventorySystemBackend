@@ -1,5 +1,5 @@
-//function to log an Message
 import fs from 'fs';
+
 import { ConfigHandler } from './configHandler';
 import clc from 'cli-color';
 
