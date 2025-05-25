@@ -103,13 +103,6 @@ export class DatabaseHandlerLogin {
                     results[0][0].superuser
                 );
 
-                log(JSON.parse(results[0][0].permissions).permissions);
-                if(Array.isArray(newUser.permissions)) {
-                    log("permission yes")
-                }else {
-                    log("permission no")
-                }
-
                 return newUser;
             } else {
                 log("User id " + id + " does not exist", "error");
