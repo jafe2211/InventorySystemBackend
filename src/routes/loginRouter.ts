@@ -29,9 +29,10 @@ loginRouter.post("/login", async (req, res) => {
 
     req.session.user = await DatabaseHandlerLogin.getUserInfo(req.body.username);
     req.session.save();
-    res.status(200).json({
-        message: req.session
-    });
+    res.sendStatus(200);
+
+    log("Login request successful for user: " + req.session.user.username);
+    log("--------------------------------------------");
 }); 
 
 loginRouter.post("/logout", (req, res) => {
@@ -40,8 +41,12 @@ loginRouter.post("/logout", (req, res) => {
         if (err) {
             log("Error while destroying session: " + err, "error");
             res.status(500).json({ message: "Internal server error" });
+            return;
         } else {
             res.status(200).json({ message: "Logged out successfully" });
         }
     });
+
+    log("Logout request successful for user: " + req.session.user.username);
+    log("--------------------------------------------");
 }); 

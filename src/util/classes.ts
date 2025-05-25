@@ -30,6 +30,7 @@ export class user{
 
         log("Added permission: " + permission + " to user: " + this.username);
         this.permissions.push(permission);
+        log("--------------------------------------------");
     }
 
     addPermissions(permission:string[]):void {
@@ -38,9 +39,10 @@ export class user{
             if(this.permissions.includes(permission[perm])) continue;
 
             this.permissions.push(permission[perm]);
-            
+
             log("Added permission: " + permission[perm] + " to user: " + this.username);
         }
+        log("--------------------------------------------");
     }
 
     addSuperuser():void {
@@ -48,6 +50,7 @@ export class user{
 
         log("Added superuser permission to user: " + this.username);
         this.superuser = true;
+        log("--------------------------------------------");
     }
 
     removePermission(permission:string):void {
@@ -55,6 +58,7 @@ export class user{
 
         log("Removed permission: " + permission + " from user: " + this.username);
         this.permissions = this.permissions.filter(perm => perm !== permission);
+        log("--------------------------------------------");
     }
 
     removePermissions(permissions:string[]):void {
@@ -64,6 +68,7 @@ export class user{
             log("Removed permission: " + perm + " to user: " + this.username);
             this.permissions = this.permissions.filter(permiss => permiss != perm);
         }
+        log("--------------------------------------------");
     }
 
     removeSuperuser():void {
@@ -71,10 +76,12 @@ export class user{
 
         log("Removed superuser permission from user: " + this.username);
         this.superuser = false;
+        log("--------------------------------------------");
     }
 
     replacePermissions(permissions:string[]):void {
         log("Replaced permissions of user: " + this.username);
         this.permissions = permissions;
+        log("--------------------------------------------");
     }
 }

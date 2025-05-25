@@ -62,7 +62,6 @@ export class DatabaseHandlerLogin {
             log("Error checking if user exists: " + error, "error");
             return false;
         }
-    return true;
     }
 
     static async getUserInfo(username: string): Promise<user> {
@@ -112,6 +111,7 @@ export class DatabaseHandlerLogin {
             log("Error getting user info: " + error, "error");
             return null;
         }
+        log("--------------------------------------------");
     }
 
     static async updateUserInfo(userToUpdate: user) {
@@ -127,5 +127,6 @@ export class DatabaseHandlerLogin {
         } catch (error) {
             log("Error creating user: " + error, "error");
         }
+        log("--------------------------------------------");
     }
 }

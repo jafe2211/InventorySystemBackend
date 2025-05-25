@@ -13,7 +13,7 @@ declare module "express-session" {
   }
   
 userManagementRouter.post('/createUser', async (req, res) => {
-    log("Register request received");
+    log("createNewUser request received");
         if(!requestChecker.checkForDataInBody(req, ["username", "password", "email"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
             return;
@@ -25,6 +25,10 @@ userManagementRouter.post('/createUser', async (req, res) => {
         }
     
         DatabaseHandlerLogin.createNewUser(req.body.username, req.body.password, req.body.email);
+        requestChecker.returnCustomResponse(res, 200, "User created successfully");
+        
+    log("createNewUser request successful for user: " + req.body.username);
+    log("--------------------------------------------");
 });
 
 userManagementRouter.post('/addPermissions', async (req, res) => {
