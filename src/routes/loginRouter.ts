@@ -37,6 +37,7 @@ loginRouter.post("/login", async (req, res) => {
 
 loginRouter.post("/logout", (req, res) => {
     log("Logout request received");
+    const sessionUser = req.session.user;
     req.session.destroy((err) => {
         if (err) {
             log("Error while destroying session: " + err, "error");
@@ -47,6 +48,6 @@ loginRouter.post("/logout", (req, res) => {
         }
     });
 
-    log("Logout request successful for user: " + req.session.user.username);
+    log("Logout request successful for user: " + sessionUser.username);
     log("--------------------------------------------");
 }); 
