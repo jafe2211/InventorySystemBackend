@@ -1,13 +1,15 @@
 import express from "express";
 import session from "express-session";
 import cors from "cors";
+import bodyParser from "body-parser";
 
 import { log } from "./util/log";
 import { config } from "process";
 import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
-import bodyParser from "body-parser";
+import { user } from "./util/classes";
+import { userManagementRouter } from "./routes/userManagementRouter";
 
 const app = express();
 
@@ -26,12 +28,8 @@ app.use(session({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
 }));
 
-
-
 app.use("/login", loginRouter);
-
-
-
+app.use("/userManagement", userManagementRouter);
 
 (async () => {
   if (await main.startup() == true) {

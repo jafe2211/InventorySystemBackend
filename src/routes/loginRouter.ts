@@ -11,25 +11,7 @@ declare module "express-session" {
         user: user;
     }
   }
-
-loginRouter.post("/register", async (req, res) => {
-    log("Register request received");
-    if(!requestChecker.checkForDataInBody(req, ["username", "password", "email"]) == true){
-        requestChecker.returnEmptyBodyResponse(res);
-        return;
-    }
-
-    if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
-        res.status(400).json({
-            message: "Username already exists"
-        });
-        return;
-    }
-
-    DatabaseHandlerLogin.createNewUser(req.body.username, req.body.password, req.body.email);
-
-}); 
-
+  
 loginRouter.post("/login", async (req, res) => {
     log("Login request received");
     if(!requestChecker.checkForDataInBody(req, ["username", "password"]) == true){
