@@ -6,6 +6,7 @@ import { log } from "./log";
 import { user } from "./classes";
 
 export class DatabaseHandlerLogin {
+
     static async createNewUser(username: string, password: string, email:string) {
         const salt = Cryption.generateSalt(32);
         const passwordToBeHashed = password + salt;
@@ -86,6 +87,52 @@ export class DatabaseHandlerLogin {
         } catch (error) {
             log("Error getting user info: " + error, "error");
             return null;
+        }
+    }
+    static async getUserInfoById(id: number): Promise<user> {
+        try {
+            const query = "SELECT * FROM users WHERE id =" + id ;
+            const results = await Database.query(query);
+
+            if (results[0].toString() != "") {
+                var newUser = new user(
+                    results[0][0].name,
+                    results[0][0].email,
+                    results[0][0].id,
+                    JSON.parse(results[0][0].permissions).permissions,
+                    results[0][0].superuser
+                );
+
+                log(JSON.parse(results[0][0].permissions).permissions);
+                if(Array.isArray(newUser.permissions)) {
+                    log("permission yes")
+                }else {
+                    log("permission no")
+                }
+
+                return newUser;
+            } else {
+                log("User id " + id + " does not exist", "error");
+                return null;
+            }
+        } catch (error) {
+            log("Error getting user info: " + error, "error");
+            return null;
+        }
+    }
+
+    static async updateUserInfo(userToUpdate: user) {
+        const permissions = JSON.stringify({
+            "permissions": userToUpdate.permissions
+        });
+
+        const query = "UPDATE users SET name='" + userToUpdate.username + "', email= '" + userToUpdate.email + "', permissions= + '" + permissions + "', superuser= " + userToUpdate.superuser +" WHERE id = " + userToUpdate.id;
+
+        try {
+            await Database.query(query);
+            log("User " + userToUpdate.username + " updated successfully");
+        } catch (error) {
+            log("Error creating user: " + error, "error");
         }
     }
 }

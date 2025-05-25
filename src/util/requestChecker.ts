@@ -35,4 +35,10 @@ export class requestChecker {
             message: "Request body is empty or missing required data"
         });
     }
+
+    static returnCustomResponse(res, statusCode: number, message: string): void {
+        res.status(statusCode).json({
+            message: message
+        });
+    }
 }

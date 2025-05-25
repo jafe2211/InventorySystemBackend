@@ -29,7 +29,9 @@ loginRouter.post("/login", async (req, res) => {
 
     req.session.user = await DatabaseHandlerLogin.getUserInfo(req.body.username);
     req.session.save();
-    res.status(200);
+    res.status(200).json({
+        message: req.session
+    });
 }); 
 
 loginRouter.post("/logout", (req, res) => {
