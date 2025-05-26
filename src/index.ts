@@ -4,7 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 import { log } from "./util/log";
-import { config } from "process";
 import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
