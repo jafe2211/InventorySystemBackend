@@ -6,7 +6,7 @@ import { log } from "./log";
 export class main{
     static async startup():Promise<boolean>{
         this.printASciiArt();
-        log("made by: Jafe2211... ")
+        log("made by: Jafe2211 & Avalyn09 ")
 
         log("Starting Server...", "info")
         
