@@ -7,7 +7,7 @@ import { log } from "./util/log";
 import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
-import { user } from "./util/classes";
+import { user } from "./util/user";
 import { userManagementRouter } from "./routes/userManagementRouter";
 import { MailHandler } from "./util/mailHandler";
 

@@ -3,7 +3,7 @@ import express from "express";
 import { requestChecker } from "../util/requestChecker";
 import { log } from "../util/log";
 import { DatabaseHandlerLogin } from "../util/databaseHandlerLogin";
-import { user } from "../util/classes";
+import { user } from "../util/user";
 
 export const loginRouter = express.Router();
 

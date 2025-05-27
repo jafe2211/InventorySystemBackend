@@ -3,7 +3,7 @@ import argon2 from "argon2";
 import { Cryption } from "./cryption";
 import { Database } from "./database";
 import { log } from "./log";
-import { user } from "./classes";
+import { user } from "./user";
 
 export class DatabaseHandlerLogin {
 

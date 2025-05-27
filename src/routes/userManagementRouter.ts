@@ -3,7 +3,7 @@ import express from 'express';
 import { log } from '../util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
-import { user } from '../util/classes';
+import { user } from '../util/user';
 
 export const userManagementRouter = express.Router();
 declare module "express-session" {
