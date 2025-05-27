@@ -1,24 +1,34 @@
 import nodemailer from 'nodemailer';
 import { ConfigHandler } from './configHandler';
+import { log } from './log';
 
 export class MailHandler {
     static transporter: nodemailer.Transporter;
 
     static async sendMail(to: string, subject: string, text: string): Promise<void> {
         var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host:  ConfigHandler.config.settings.mail.mailHost,
+            port:  ConfigHandler.config.settings.mail.mailPort,
+            secure: ConfigHandler.config.settings.mail.mailSecure, 
             auth: {
-                user: ConfigHandler.config.settings.mailUser,
-                pass: ConfigHandler.config.settings.mailPass
+                user: ConfigHandler.config.settings.mail.mailUser,
+                pass: ConfigHandler.config.settings.mail.mailPass
             }});
         try {
             await transporter.sendMail({
-                from: ConfigHandler.config.settings.mailUser,
+                from:  ConfigHandler.config.settings.mail.mailUser,
                 to: to,
                 subject: subject,
                 text: text
-            }, ()=> {});
-            console.log(`Email sent to ${to} with subject "${subject}"`);
+            }, (error, info)=> {
+                if(error){
+                    log(`Error sending email to ${to}: ${error}`, "error");
+                    return;
+                }
+
+                log(`Email sent to ${to}: ${info.response}`, "info");
+            });
+
         } catch (error) {
             console.error(`Failed to send email to ${to}:`, error);
         }
