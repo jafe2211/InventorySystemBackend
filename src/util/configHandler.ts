@@ -2,6 +2,26 @@ import fs from 'fs';
 
 import { log } from './log.js';
 
+/*export interface config {
+    settings: string[] = [
+        "logToFile",
+        "logToConsole",
+        "logPath",
+        "appPort",
+        "dbHost",
+        "dbUser",
+        "dbPass",
+        "dbBase",
+        "mailUser",
+        "mailPass"];
+    Security: string[] = [
+        "SECRET_KEY",
+        "SECRET_IV",
+        "encryptionMethod"];
+}
+*/
+
+
 export class ConfigHandler {
     static config: any;
 

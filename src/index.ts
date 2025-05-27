@@ -9,6 +9,7 @@ import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
 import { user } from "./util/classes";
 import { userManagementRouter } from "./routes/userManagementRouter";
+import { MailHandler } from "./util/mailHandler";
 
 const app = express();
 
@@ -35,5 +36,6 @@ app.use("/userManagement", userManagementRouter);
     app.listen(ConfigHandler.config.settings.appPort, () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
     });
+    await MailHandler.sendMail("jakob.fels@gym-kothen.de", "Test Email", "This is a test email from the server. If you receive this email, the mail handler is working correctly.");
   }
 })();
