@@ -15,9 +15,20 @@ export class DatabaseHandlerLogin {
 
         const query = "INSERT INTO users (name, email, permissions, superuser, passwordResetCode) VALUES ('" + username + "', '" + email + "', + '{}', 0, '" + passwordResetCode + "')";
 
+        const User = new user(
+            username,
+            email,
+            0,
+            [],
+            false
+        );
+
+        User.passwordResetCode = passwordResetCode;
+
         try {
             await Database.query(query);
             log("User " + username + " created successfully");
+            return User;
         } catch (error) {
             log("Error creating user: " + error, "error");
         }
@@ -79,16 +90,23 @@ export class DatabaseHandlerLogin {
                     results[0][0].superuser
                 );
 
+                if(results[0][0].passwordResetCode != "") {
+                    newUser.passwordResetCode = results[0][0].passwordResetCode;
+                }
+
                 return newUser;
-            } else {
-                log("User " + username + " does not exist", "error");
-                return null;
-            }
+            } 
+
+            log("User " + username + " does not exist", "error");
+
+            return null;
+            
         } catch (error) {
             log("Error getting user info: " + error, "error");
             return null;
         }
     }
+
     static async getUserInfoById(id: number): Promise<user> {
         try {
             const query = "SELECT * FROM users WHERE id =" + id ;
@@ -103,16 +121,54 @@ export class DatabaseHandlerLogin {
                     results[0][0].superuser
                 );
 
+                if(results[0][0].passwordResetCode != "") {
+                    newUser.passwordResetCode = results[0][0].passwordResetCode;
+                }
+
                 return newUser;
-            } else {
-                log("User id " + id + " does not exist", "error");
-                return null;
             }
+            // If the user does not exist, return null
+            log("User id " + id + " does not exist", "error");
+
+            return null;
+            
         } catch (error) {
             log("Error getting user info: " + error, "error");
             return null;
         }
         log("--------------------------------------------");
+    }
+
+    static async getUserInfoByPasswordResetCode(passwordResetCode: string): Promise<user> {
+        try {
+            const query = "SELECT * FROM users WHERE passwordResetCode ='" + passwordResetCode + "'";
+            const results = await Database.query(query);
+
+            if (results[0].toString() != "") {
+                var newUser = new user(
+                    results[0][0].name,
+                    results[0][0].email,
+                    results[0][0].id,
+                    JSON.parse(results[0][0].permissions).permissions,
+                    results[0][0].superuser
+                );
+
+                if(results[0][0].passwordResetCode != "") {
+                    newUser.passwordResetCode = results[0][0].passwordResetCode;
+                }
+
+                return newUser;
+            }
+            // If the user does not exist, return null
+            log("Password Reset code " + passwordResetCode + " does not exist", "error");
+            log("--------------------------------------------");
+            return null;
+            
+        } catch (error) {
+            log("Error getting user info: " + error, "error");
+            log("--------------------------------------------");
+            return null;
+        }
     }
 
     static async updateUserInfo(userToUpdate: user) {
@@ -129,5 +185,41 @@ export class DatabaseHandlerLogin {
             log("Error creating user: " + error, "error");
         }
         log("--------------------------------------------");
+    }
+
+    static async updateFullUserInfo(userToUpdate: user): Promise<boolean> {
+        log("Updating user: " + userToUpdate.username);
+
+        const permissions = JSON.stringify({
+            "permissions": userToUpdate.permissions
+        });
+
+        var query = "UPDATE users SET name='" + userToUpdate.username + 
+        "', email= '" + userToUpdate.email +
+        "', permissions= + '" + permissions + 
+        "', superuser= " + userToUpdate.superuser + 
+        ", passwordResetCode = '" + userToUpdate.passwordResetCode + 
+        "'";
+
+        const queryEnd = " WHERE id = " + userToUpdate.id;
+
+        if(userToUpdate.password != undefined) {
+            query += ", password = '" + userToUpdate.password + "'";
+        }
+
+        if(userToUpdate.salt != undefined) {
+            query += ", salt = '" + userToUpdate.salt + "'";
+        }
+
+        query += queryEnd;
+
+        try {
+            await Database.query(query);
+            log("User " + userToUpdate.username + " updated successfully");
+            return true;
+        } catch (error) {
+            log("Error updating user: " + error, "error");
+            return false;
+        }
     }
 }

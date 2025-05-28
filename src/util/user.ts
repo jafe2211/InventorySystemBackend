@@ -1,5 +1,7 @@
 import e from "express";
 import { log } from "./log";
+import argon2 from 'argon2';
+import { Cryption } from "./cryption";
 
 export class user{
     id: number;
@@ -8,6 +10,9 @@ export class user{
     permissions: string[] = ["test", "test2"];
     superuser: boolean;
     passwordResetCode?: string;
+    salt?: string;
+    password?: string;
+
     static publicPermissions: string[] = [
         "updateUserPermissions"
     ];
@@ -77,5 +82,15 @@ export class user{
     replacePermissions(permissions:string[]):void {
         log("Replaced permissions of user: " + this.username);
         this.permissions = permissions;
+    }
+
+    async setPassword(password: string):Promise<void> {
+
+        log("Set password for user: " + this.username);
+        const salt = Cryption.generateSalt(32);
+        const hashedPassword = argon2.hash(password + salt);
+        this.salt = salt;
+
+        this.password = await hashedPassword; 
     }
 }

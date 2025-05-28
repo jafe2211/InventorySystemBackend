@@ -4,6 +4,7 @@ import { log } from '../util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
 import { user } from '../util/user';
+import { MailHandler } from '../util/mailHandler';
 
 export const userManagementRouter = express.Router();
 declare module "express-session" {
@@ -34,11 +35,7 @@ declare module "express-session" {
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
         if(!requestChecker.checkForDataInBody(req, ["username", "email"]) == true){
-            //requestChecker.returnEmptyBodyResponse(res);
-            res.status(400).json({ 
-                message: "Missing required fields: username, email",
-                data: req.body 
-             });
+            requestChecker.returnEmptyBodyResponse(res);
             return;
         }
     
@@ -47,13 +44,45 @@ userManagementRouter.post('/createUser', async (req, res) => {
             return;
         }
     
-        DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email);
+        const user =  await DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email);
+
+        if(user == null) {
+            requestChecker.returnCustomResponse(res, 500, "Internal server error");
+            return;
+        }
+
+        //MailHandler.sendMail(user.email, "Welcome to the System", `Hello ${user.username},\n\n ${user.passwordResetCode} \n\nBest regards,\nThe Team`);
         requestChecker.returnCustomResponse(res, 200, "User created successfully");
         
     log("createNewUser request successful for user: " + req.body.username);
     log("--------------------------------------------");
 });
 
+userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res) => {
+    log("changePassword request received");
+    if(!requestChecker.checkForParameter(req, "passwordResetCode") == true){
+        requestChecker.returnEmptyParametersResponse(res);
+        return;
+    }
+
+    if(!requestChecker.checkForDataInBody(req, ["newPassword"]) == true){
+        requestChecker.returnEmptyBodyResponse(res);
+        return;
+    }
+
+    const userToUpdate = await DatabaseHandlerLogin.getUserInfoByPasswordResetCode(req.params.passwordResetCode);
+
+    if(userToUpdate == null) {
+        requestChecker.returnCustomResponse(res, 404, "Not valid password reset code");
+        return;
+    }
+
+    await userToUpdate.setPassword(req.body.newPassword);
+    //userToUpdate.passwordResetCode = ""; // Clear the password reset code after use
+
+    await DatabaseHandlerLogin.updateFullUserInfo(userToUpdate);
+
+});
 
 userManagementRouter.post('/addPermissions', async (req, res) => {
     if(!requestChecker.checkForDataInBody(req, ["id", "permissions"]) == true){

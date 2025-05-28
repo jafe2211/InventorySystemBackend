@@ -1,6 +1,16 @@
+import { Request, Response } from "express-serve-static-core";
+import { ParsedQs } from "qs";
 import { log } from "./log";
 
 export class requestChecker {
+    static checkForParameter(req: Request, parameters: string): boolean {
+        
+        if(req.params[parameters] === undefined || req.params[parameters] === "") {
+            log("Recived Empty request parameters", "error");
+            return false;
+        }
+        return true;
+    }
 
     private static checkIfBodyIsEmpty(req):boolean {
         if(req.body == undefined) {
@@ -33,6 +43,12 @@ export class requestChecker {
     static returnEmptyBodyResponse(res): void {
         res.status(400).json({
             message: "Request body is empty or missing required data"
+        });
+    }
+
+    static returnEmptyParametersResponse(res: Response<any>) {
+        res.status(400).json({
+            message: "Request parameters is empty or missing required data"
         });
     }
 
