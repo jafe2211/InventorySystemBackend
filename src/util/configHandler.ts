@@ -21,15 +21,19 @@ import { log } from './log.js';
 }
 */
 
-
+//define the config class
 export class ConfigHandler {
     static config: any;
 
+    /// Method to setup the config system. needs to be called before using the config system.
     static setup(): void {
+
+        //checking if the config file exists
         if (!fs.existsSync("./config.json")) {
 
             log("Config file not found, creating new one...", "warn");
 
+            //create the config file with default values
             fs.writeFileSync("./config.json", JSON.stringify({
                 settings: {
                     logToFile: false,
@@ -39,7 +43,14 @@ export class ConfigHandler {
                     dbHost: "",
                     dbUser: "",
                     dbPass: "",
-                    dbBase: ""
+                    dbBase: "",
+                    mail: {
+                        mailHost: "",
+                        mailPort: 465,
+                        mailSecure: true,
+                        mailUser: "",
+                        mailPass: ""
+                    }
                 },
 
                 Security: {
@@ -51,22 +62,27 @@ export class ConfigHandler {
     
 
             }, null, 2));
-            //logM("Config file created");
         }
 
+        //reading the config file and parsing it into an object
         this.config = JSON.parse(fs.readFileSync("./config.json", 'utf8'));
 
         log("Config file loaded", "info");
     }
 
+    // Method to reload the config file. needs to be called after changing the config file.
     static reloadConfig(): void {
+
+        // checking if the config file exists if not, calling setup
         if (!fs.existsSync("./config.json")) { this.setup(); return; }
 
+        // reading the config file and parsing it into an object
         this.config = JSON.parse(fs.readFileSync("./config.json", 'utf8'));
 
         log("Config file reloaded", "info");
     }
 
+    // Method to save the config file.
     static saveConfig(): void {
         fs.writeFileSync("./config.json", JSON.stringify(this.config, null, 2));
     }
