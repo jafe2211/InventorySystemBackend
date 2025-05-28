@@ -36,6 +36,6 @@ app.use("/userManagement", userManagementRouter);
     app.listen(ConfigHandler.config.settings.appPort, () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
     });
-    await MailHandler.sendMail("jakob.fels@gym-kothen.de", "Test Email", "This is a test email from the server. If you receive this email, the mail handler is working correctly.");
+    //await MailHandler.sendMail("jakob.fels@gym-kothen.de", "Test Email", "This is a test email from the server. If you receive this email, the mail handler is working correctly.");
   }
 })();

@@ -7,6 +7,7 @@ export class user{
     email: string;
     permissions: string[] = ["test", "test2"];
     superuser: boolean;
+    passwordResetCode?: string;
     static publicPermissions: string[] = [
         "updateUserPermissions"
     ];

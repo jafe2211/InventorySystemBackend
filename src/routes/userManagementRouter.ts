@@ -12,7 +12,7 @@ declare module "express-session" {
     }
   }
   
-userManagementRouter.post('/createUser', async (req, res) => {
+/*userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
         if(!requestChecker.checkForDataInBody(req, ["username", "password", "email"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
@@ -29,7 +29,31 @@ userManagementRouter.post('/createUser', async (req, res) => {
         
     log("createNewUser request successful for user: " + req.body.username);
     log("--------------------------------------------");
+}); */
+
+userManagementRouter.post('/createUser', async (req, res) => {
+    log("createNewUser request received");
+        if(!requestChecker.checkForDataInBody(req, ["username", "email"]) == true){
+            //requestChecker.returnEmptyBodyResponse(res);
+            res.status(400).json({ 
+                message: "Missing required fields: username, email",
+                data: req.body 
+             });
+            return;
+        }
+    
+        if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
+            requestChecker.returnCustomResponse(res, 400, "Username already exists");
+            return;
+        }
+    
+        DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email);
+        requestChecker.returnCustomResponse(res, 200, "User created successfully");
+        
+    log("createNewUser request successful for user: " + req.body.username);
+    log("--------------------------------------------");
 });
+
 
 userManagementRouter.post('/addPermissions', async (req, res) => {
     if(!requestChecker.checkForDataInBody(req, ["id", "permissions"]) == true){
