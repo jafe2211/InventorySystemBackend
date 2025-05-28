@@ -51,7 +51,7 @@ userManagementRouter.post('/createUser', async (req, res) => {
             return;
         }
 
-        //MailHandler.sendMail(user.email, "Welcome to the System", `Hello ${user.username},\n\n ${user.passwordResetCode} \n\nBest regards,\nThe Team`);
+        MailHandler.sendMail(user.email, "Welcome to the System", `Hello ${user.username},\n\n ${user.passwordResetCode} \n\nBest regards,\nThe Team`);
         requestChecker.returnCustomResponse(res, 200, "User created successfully");
         
     log("createNewUser request successful for user: " + req.body.username);
@@ -78,7 +78,7 @@ userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res)
     }
 
     await userToUpdate.setPassword(req.body.newPassword);
-    //userToUpdate.passwordResetCode = ""; // Clear the password reset code after use
+    userToUpdate.passwordResetCode = ""; // Clear the password reset code after use
 
     await DatabaseHandlerLogin.updateFullUserInfo(userToUpdate);
 
