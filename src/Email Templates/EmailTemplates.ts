@@ -37,9 +37,6 @@ export class EmailTemplates {
             --secondary-background-color: #434343;
             --text-color: #f0f0f0;
         }
-        p {
-           
-        }
         .second{
             font-size: 15px;
             color: #8F8F8F;
@@ -53,6 +50,7 @@ export class EmailTemplates {
 
         .btnP {
             margin: 0px;
+            text-align: center;
         }
 
         .btnA {
