@@ -36,5 +36,6 @@ app.use("/userManagement", userManagementRouter);
     app.listen(ConfigHandler.config.settings.appPort, () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
     });
+
   }
 })();

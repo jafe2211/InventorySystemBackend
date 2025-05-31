@@ -1,4 +1,8 @@
-<html>
+export class EmailTemplates {
+    static getAccountCreatedTemplate(username: string, resetCode: string): string {
+
+        return `
+            <html>
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,7 +14,7 @@
     <div class="contentWrapper">
         <div class="cardWrapperWrapper">
         <div class="cardWrapper">
-            <h1>Hi <span class="Higlight">Jakob</span>,</h1>
+            <h1>Hi <span class="Higlight">${username}</span>,</h1>
             <hr>
             <p>Es wurde ein Benutzerkonto mit deiner Email erstellt. solltest du damit unzufrieden sein, kannst dut <a href=""><span class="Higlight"> HIER</span></a> dein Konto löschen lassen.
                 Solltest du es nutzen wollen, kannst du über den Knopf, direkt unter diesem text, oder <a href=""><span class="Higlight">HIER</span></a> ein Passwort festlegen und direkt loslegen :)</p>
@@ -19,7 +23,7 @@
                 <a href="" class="btnA"><p class="BtnP">Passwort festlegen</p></a>
             </div>
 
-            <p class="second">oder gehe auf inventarSystem.jafe2211.de/<br>userManegment/Ts5Fdzeh</p>
+            <p class="second">oder gehe auf inventarSystem.jafe2211.de/<br>userManegment/${resetCode}</p>
         </div>
         <p>Copyright ©2025 InventarSystem | made by jafe2211 & Avalyn09</p>
         </div>
@@ -127,3 +131,6 @@
 
     </style>
 </html>
+        `;
+    }
+}

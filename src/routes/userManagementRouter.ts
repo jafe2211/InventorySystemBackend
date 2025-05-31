@@ -5,6 +5,7 @@ import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
 import { user } from '../util/user';
 import { MailHandler } from '../util/mailHandler';
+import { EmailTemplates } from '../Email Templates/EmailTemplates';
 
 export const userManagementRouter = express.Router();
 declare module "express-session" {
@@ -12,26 +13,6 @@ declare module "express-session" {
         user: user;
     }
   }
-  
-/*userManagementRouter.post('/createUser', async (req, res) => {
-    log("createNewUser request received");
-        if(!requestChecker.checkForDataInBody(req, ["username", "password", "email"]) == true){
-            requestChecker.returnEmptyBodyResponse(res);
-            return;
-        }
-    
-        if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
-            requestChecker.returnCustomResponse(res, 400, "Username already exists");
-            return;
-        }
-    
-        DatabaseHandlerLogin.createNewUser(req.body.username, req.body.password, req.body.email);
-        requestChecker.returnCustomResponse(res, 200, "User created successfully");
-        
-    log("createNewUser request successful for user: " + req.body.username);
-    log("--------------------------------------------");
-}); */
-
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
         if(!requestChecker.checkForDataInBody(req, ["username", "email"]) == true){
@@ -51,7 +32,7 @@ userManagementRouter.post('/createUser', async (req, res) => {
             return;
         }
 
-        MailHandler.sendMail(user.email, "Welcome to the System", `Hello ${user.username},\n\n ${user.passwordResetCode} \n\nBest regards,\nThe Team`);
+        MailHandler.sendHtmlMail(user.email, "Welcome to the System", EmailTemplates.getAccountCreatedTemplate(user.username, user.passwordResetCode));
         requestChecker.returnCustomResponse(res, 200, "User created successfully");
         
     log("createNewUser request successful for user: " + req.body.username);
