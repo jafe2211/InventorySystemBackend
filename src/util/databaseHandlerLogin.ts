@@ -222,4 +222,17 @@ export class DatabaseHandlerLogin {
             return false;
         }
     }
+
+    static async deleteUser(userToDelete: user) {
+        log("Deleting user: " + userToDelete.username);
+
+        const query = "DELETE FROM users WHERE id = " + userToDelete.id;
+
+        try {
+            await Database.query(query);
+            log("User " + userToDelete.username + " deleted successfully");
+        } catch (error) {
+            log("Error deleting user: " + error, "error");
+        }
+    }
 }

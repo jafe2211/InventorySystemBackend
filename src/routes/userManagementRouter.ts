@@ -84,6 +84,26 @@ userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res)
 
 });
 
+userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res) => {
+    log("deleteUser request received");
+    if(!requestChecker.checkForParameter(req, "passwordResetCode") == true){
+        requestChecker.returnEmptyParametersResponse(res);
+        return;
+    }
+
+    const userToDelete = await DatabaseHandlerLogin.getUserInfoByPasswordResetCode(req.params.passwordResetCode);
+
+    if(userToDelete == null) {
+        requestChecker.returnCustomResponse(res, 404, "Not valid password reset code");
+        return;
+    }
+
+    await DatabaseHandlerLogin.deleteUser(userToDelete);
+
+    requestChecker.returnCustomResponse(res, 200, "User deleted successfully");
+    log("--------------------------------------------");
+});
+
 userManagementRouter.post('/addPermissions', async (req, res) => {
     if(!requestChecker.checkForDataInBody(req, ["id", "permissions"]) == true){
         requestChecker.returnEmptyBodyResponse(res);
