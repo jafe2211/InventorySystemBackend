@@ -32,7 +32,7 @@ userManagementRouter.post('/createUser', async (req, res) => {
             return;
         }
 
-        MailHandler.sendHtmlMail(user.email, "Welcome to the System", EmailTemplates.getAccountCreatedTemplate(user.username, user.passwordResetCode));
+        await MailHandler.sendHtmlMail(user.email, "Welcome to the System", EmailTemplates.getAccountCreatedTemplate(user.username, user.passwordResetCode));
         requestChecker.returnCustomResponse(res, 200, "User created successfully");
         
     log("createNewUser request successful for user: " + req.body.username);
