@@ -15,11 +15,18 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use(
-  cors({
-      origin: "*",
-  })
-);
+const whitelist = ['http://localhost:4200', 'http://localhost:8081'];
+const corsOptions = {
+  credentials: true, 
+  origin: (origin, callback) => {
+    if(whitelist.includes(origin))
+      return callback(null, true)
+
+      callback();
+  }
+}
+
+app.use(cors(corsOptions));
 
 app.use(session({
   secret: ConfigHandler.config.Security.SECRET_KEY,
@@ -35,6 +42,7 @@ app.use("/userManagement", userManagementRouter);
   if (await main.startup() == true) {
     app.listen(ConfigHandler.config.settings.appPort, () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
+      log("startup done!", "success")
     });
 
   }

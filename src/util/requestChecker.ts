@@ -13,7 +13,7 @@ export class requestChecker {
     }
 
     private static checkIfBodyIsEmpty(req):boolean {
-        if(req.body == undefined) {
+        if(req.body == undefined || req.body == "") {
             return true;
         }
         return false;

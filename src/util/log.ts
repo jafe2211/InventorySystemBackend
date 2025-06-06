@@ -84,8 +84,15 @@ export function log(message, type?: string) {
     if(type == "warn") {
         console.log(clc.yellow(`[${Time.toLocaleTimeString('de-DE',)}] [WARN] ${message}`));
     }
+    if(type == "success") {
+        console.log(clc.green(`[${Time.toLocaleTimeString('de-DE',)}] [SUCCESS] ${message}`));
+    }
     if(type == "debug") {
         console.log(clc.green(`[${Time.toLocaleTimeString('de-DE',)}] [DEBUG] ${message}`));
     }
   }
+}
+
+export function logEnd(){
+  log("--------------------------------------------");
 }

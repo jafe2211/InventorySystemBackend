@@ -1,7 +1,7 @@
 import express from "express";
 
 import { requestChecker } from "../util/requestChecker";
-import { log } from "../util/log";
+import { log, logEnd } from "../util/log";
 import { DatabaseHandlerLogin } from "../util/databaseHandlerLogin";
 import { user } from "../util/user";
 
@@ -13,10 +13,23 @@ declare module "express-session" {
     }
   }
 
+loginRouter.post("/test", (req, res) =>{
+    log("test recived");
+    log(req.session.user)
+    res.header({
+        'Access-Control-Allow-Credentials': true
+    }).status(200).json({
+        "message": req.session.user
+    })
+})
+
 loginRouter.post("/login", async (req, res) => {
     log("Login request received");
+    log(req.body.username)
     if(!requestChecker.checkForDataInBody(req, ["username", "password"]) == true){
         requestChecker.returnEmptyBodyResponse(res);
+        log("request was empty or missing required Data!", "error");
+        logEnd();
         return;
     }
 
@@ -24,15 +37,19 @@ loginRouter.post("/login", async (req, res) => {
         res.status(401).json({
             message: "wrong username or password"
         });
+        log("User name or Password given in the request where not found in data base", "error");
+        logEnd();
         return;
     }
 
     req.session.user = await DatabaseHandlerLogin.getUserInfo(req.body.username);
     req.session.save();
-    res.sendStatus(200);
+    res.header({
+        'Access-Control-Allow-Credentials': true
+    }).sendStatus(200);
 
-    log("Login request successful for user: " + req.session.user.username);
-    log("--------------------------------------------");
+    log("Login request successful for user: " + req.session.user.username, "success");
+    logEnd();
 }); 
 
 loginRouter.post("/logout", (req, res) => {
