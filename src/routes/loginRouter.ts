@@ -25,7 +25,6 @@ loginRouter.post("/test", (req, res) =>{
 
 loginRouter.post("/login", async (req, res) => {
     log("Login request received");
-    log(req.body.username)
     if(!requestChecker.checkForDataInBody(req, ["username", "password"]) == true){
         requestChecker.returnEmptyBodyResponse(res);
         log("request was empty or missing required Data!", "error");
