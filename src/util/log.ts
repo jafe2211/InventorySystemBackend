@@ -14,6 +14,8 @@ const TimeString = TimeWhenStarted.toLocaleString('de-DE', {
   second: '2-digit'
 }).replace(/:/g, '-').replace(/,/g, '');
 
+var LastLog:string; 
+
 export function log(message, type?: string) {
 
     if(type == null || type == undefined) {
@@ -73,26 +75,38 @@ export function log(message, type?: string) {
   //log the message to the console
   if (ConfigHandler.config.settings.logToConsole) {
     if(type == "standard") {
-    console.log(`[${Time.toLocaleTimeString('de-DE',)}] ${message}`)
+        console.log(`[${Time.toLocaleTimeString('de-DE',)}] ${message}`)
+        LastLog = `${message}`;
     }
     if(type == "error") {
         console.log(clc.red(`[${Time.toLocaleTimeString('de-DE',)}] [ERROR] ${message}`));
+        LastLog = `[ERROR] ${message}`;
     }
     if(type == "info") {
         console.log(clc.blue(`[${Time.toLocaleTimeString('de-DE',)}] [INFO] ${message}`));
+        LastLog = `[INFO] ${message}`;
     }
     if(type == "warn") {
         console.log(clc.yellow(`[${Time.toLocaleTimeString('de-DE',)}] [WARN] ${message}`));
+        LastLog = `[WARN] ${message}`;
     }
     if(type == "success") {
         console.log(clc.green(`[${Time.toLocaleTimeString('de-DE',)}] [SUCCESS] ${message}`));
+        LastLog = `[SUCCESS] ${message}`;
     }
     if(type == "debug") {
         console.log(clc.green(`[${Time.toLocaleTimeString('de-DE',)}] [DEBUG] ${message}`));
+        LastLog = `[SUCCESS] ${message}`;
     }
   }
 }
 
 export function logEnd(){
-  log("--------------------------------------------");
+  var dividingString:string = "";
+
+  for(let i = 0; i < LastLog.length; i++){
+    dividingString += "-"
+  }
+
+  log(dividingString)
 }

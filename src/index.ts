@@ -3,7 +3,7 @@ import session from "express-session";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { log } from "./util/log";
+import { log, logEnd } from "./util/log";
 import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
@@ -43,6 +43,7 @@ app.use("/userManagement", userManagementRouter);
     app.listen(ConfigHandler.config.settings.appPort, () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
       log("startup done!", "success")
+      logEnd();
     });
 
   }
