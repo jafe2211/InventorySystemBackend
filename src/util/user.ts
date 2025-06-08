@@ -7,6 +7,7 @@ export interface userProperty{
     id?:number,
     username?: string,
     email?: string,
+    permissions?: string[],
     superuser?: boolean,
     passwordResetCode?:string,
     salt?:string,
