@@ -8,6 +8,7 @@ import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";
+import { getUser } from "./util/getUserInfo";
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.use("/userManagement", userManagementRouter);
 
 (async () => {
   if (await main.startup() == true) {
-    app.listen(ConfigHandler.config.settings.appPort, () => {
+    app.listen(ConfigHandler.config.settings.appPort, async () => {
       log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
       log("startup done!", "success")
       logEnd();

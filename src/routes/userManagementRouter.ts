@@ -1,11 +1,12 @@
 import express from 'express';
 
-import { log } from '../util/log';
+import { log, logEnd } from '../util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
 import { user } from '../util/user';
 import { MailHandler } from '../util/mailHandler';
 import { EmailTemplates } from '../Email Templates/EmailTemplates';
+import { getUser } from '../util/getUserInfo';
 
 export const userManagementRouter = express.Router();
 declare module "express-session" {
@@ -13,6 +14,7 @@ declare module "express-session" {
         user: user;
     }
   }
+
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
         if(!requestChecker.checkForDataInBody(req, ["username", "email"]) == true){
@@ -51,7 +53,7 @@ userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res)
         return;
     }
 
-    const userToUpdate = await DatabaseHandlerLogin.getUserInfoByPasswordResetCode(req.params.passwordResetCode);
+    const userToUpdate = await getUser.by({passwordResetCode: req.params.passwordResetCode});
 
     if(userToUpdate == null) {
         requestChecker.returnCustomResponse(res, 404, "Not valid password reset code");
@@ -65,6 +67,26 @@ userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res)
 
 });
 
+userManagementRouter.post("/resetPassword", async (req, res) =>{
+    log("resetPassword request recived!")
+
+    if(!requestChecker.checkForDataInBody(req, ["email"]) == true){
+        requestChecker.returnEmptyBodyResponse(res);
+        log("Request Body was empty", "error")
+        logEnd();
+    }
+
+    var user = await getUser.by({email: req.body.email})
+
+    if(user == null) {
+        return requestChecker.returnCustomResponse(res, 404, "No user found with the specified email")
+    }
+
+    user.resetPassword();
+    if(!DatabaseHandlerLogin.updateFullUserInfo(user)) return requestChecker.returnCustomResponse(res, 500, "There was an internal server error");
+    requestChecker.returnCustomResponse(res, 200, "Send password reset code to user")
+})
+
 userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res) => {
     log("deleteUser request received");
     if(!requestChecker.checkForParameter(req, "passwordResetCode") == true){
@@ -72,7 +94,7 @@ userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res
         return;
     }
 
-    const userToDelete = await DatabaseHandlerLogin.getUserInfoByPasswordResetCode(req.params.passwordResetCode);
+    const userToDelete = await getUser.by({passwordResetCode: req.params.passwordResetCode});
 
     if(userToDelete == null) {
         requestChecker.returnCustomResponse(res, 404, "Not valid password reset code");
@@ -95,7 +117,7 @@ userManagementRouter.post('/addPermissions', async (req, res) => {
         requestChecker.returnCustomResponse(res, 401, "You are not logged in");
         return;
     }
-    const RequestUser = await DatabaseHandlerLogin.getUserInfo(req.session.user.username);
+    const RequestUser = await getUser.by({username: req.session.user.username});
 
     if(!RequestUser.checkPermission("updateUserPermissions")){
         requestChecker.returnCustomResponse(res, 403, "You do not have permission to update user permissions");
@@ -103,7 +125,7 @@ userManagementRouter.post('/addPermissions', async (req, res) => {
     }
 
     try {
-        const userToUpdate = await DatabaseHandlerLogin.getUserInfoById(req.body.id);
+        const userToUpdate = await getUser.by({id: req.body.id});
 
         if(userToUpdate == null) {
             requestChecker.returnCustomResponse(res, 404, "User not found");
@@ -132,7 +154,7 @@ userManagementRouter.post('/updatePermissions', async (req, res) => {
         requestChecker.returnCustomResponse(res, 401, "You are not logged in");
         return;
     }
-    const RequestUser = await DatabaseHandlerLogin.getUserInfo(req.session.user.username);
+    const RequestUser = await getUser.by({username: req.session.user.username});
 
     if(!RequestUser.checkPermission("updateUserPermissions")){
         requestChecker.returnCustomResponse(res, 403, "You do not have permission to update user permissions");
@@ -140,7 +162,7 @@ userManagementRouter.post('/updatePermissions', async (req, res) => {
     }
 
     try {
-        const userToUpdate = await DatabaseHandlerLogin.getUserInfoById(req.body.id);
+        const userToUpdate = await getUser.by({id: req.body.id});
 
         if(userToUpdate == null) {
             requestChecker.returnCustomResponse(res, 404, "User not found");
