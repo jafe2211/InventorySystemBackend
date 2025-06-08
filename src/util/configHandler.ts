@@ -59,8 +59,6 @@ export class ConfigHandler {
                     encryptionMethod: "",
                 },
 
-    
-
             }, null, 2));
         }
 

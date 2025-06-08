@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { log } from '../util/log';
+import { log, logEnd } from '../util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
 import { user } from '../util/user';
@@ -64,6 +64,25 @@ userManagementRouter.post('/changePassword/:passwordResetCode', async (req, res)
     await DatabaseHandlerLogin.updateFullUserInfo(userToUpdate);
 
 });
+
+userManagementRouter.post("/resetPassword", async (req, res) =>{
+    log("resetPassword request recived!")
+    if(req.session.user == undefined){
+        requestChecker.returnCustomResponse(res, 401, "you are not logged in")
+        log("Not Loged in", "error")
+        logEnd();
+        return;
+    }
+
+    if(!requestChecker.checkForDataInBody(req, ["email"])){
+        requestChecker.returnEmptyBodyResponse(res);
+        log("Request Body was emty")
+        logEnd();
+    }
+
+    
+
+})
 
 userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res) => {
     log("deleteUser request received");
