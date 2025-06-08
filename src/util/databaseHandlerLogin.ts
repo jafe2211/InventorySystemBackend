@@ -120,7 +120,7 @@ export class DatabaseHandlerLogin {
 
         try {
             await Database.query(query);
-            log("User " + userToUpdate.username + " updated successfully");
+            log("User " + userToUpdate.username + " updated successfully", "success");
             return true;
         } catch (error) {
             log("Error updating user: " + error, "error");
@@ -135,7 +135,7 @@ export class DatabaseHandlerLogin {
 
         try {
             await Database.query(query);
-            log("User " + userToDelete.username + " deleted successfully");
+            log("User " + userToDelete.username + " deleted successfully", "success");
         } catch (error) {
             log("Error deleting user: " + error, "error");
         }

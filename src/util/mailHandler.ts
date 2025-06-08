@@ -26,7 +26,7 @@ export class MailHandler {
                     return;
                 }
 
-                log(`Email sent to ${to}: ${info.response}`);
+                //log(`Email sent to ${to}: ${info.response}`);
             });
 
         } catch (error) {
@@ -55,7 +55,7 @@ export class MailHandler {
                     return;
                 }
 
-                log(`Email sent to ${to}: ${info.response}`);
+                //log(`Email sent to ${to}: ${info.response}`);
             });
 
         } catch (error) {

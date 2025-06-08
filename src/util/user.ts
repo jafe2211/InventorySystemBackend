@@ -112,6 +112,6 @@ export class user{
 
         this.passwordResetCode = passwordResetCode;
 
-        MailHandler.sendMail(this.email, "Reset Password",this.passwordResetCode);
+        await MailHandler.sendMail(this.email, "Reset Password",this.passwordResetCode);
     }
 }

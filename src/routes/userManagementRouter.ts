@@ -82,9 +82,13 @@ userManagementRouter.post("/resetPassword", async (req, res) =>{
         return requestChecker.returnCustomResponse(res, 404, "No user found with the specified email")
     }
 
-    user.resetPassword();
-    if(!DatabaseHandlerLogin.updateFullUserInfo(user)) return requestChecker.returnCustomResponse(res, 500, "There was an internal server error");
+    await user.resetPassword();
+
+    if(await DatabaseHandlerLogin.updateFullUserInfo(user) != true){
+        return requestChecker.returnCustomResponse(res, 500, "There was an internal server error");
+    } 
     requestChecker.returnCustomResponse(res, 200, "Send password reset code to user")
+    logEnd();
 })
 
 userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res) => {
