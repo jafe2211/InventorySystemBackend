@@ -3,6 +3,16 @@ import { log } from "./log";
 import argon2 from 'argon2';
 import { Cryption } from "./cryption";
 
+export interface userProperty{
+    id?:number,
+    username?: string,
+    email?: string,
+    superuser?: boolean,
+    passwordResetCode?:string,
+    salt?:string,
+    password?:string
+}
+
 export class user{
     id: number;
     username: string;
