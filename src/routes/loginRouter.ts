@@ -4,6 +4,7 @@ import { requestChecker } from "../util/requestChecker";
 import { log, logEnd } from "../util/log";
 import { DatabaseHandlerLogin } from "../util/databaseHandlerLogin";
 import { user } from "../util/user";
+import { getUser } from '../util/getUserInfo';
 
 export const loginRouter = express.Router();
 
@@ -41,7 +42,7 @@ loginRouter.post("/login", async (req, res) => {
         return;
     }
 
-    req.session.user = await DatabaseHandlerLogin.getUserInfo(req.body.username);
+    req.session.user = await getUser.by({username: req.body.username});
     req.session.save();
     res.header({
         'Access-Control-Allow-Credentials': true

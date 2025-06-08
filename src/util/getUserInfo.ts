@@ -111,6 +111,12 @@ export class getUser{
         query = query.slice(0, query.length-4)
 
         const res = await Database.query(query)
+
+        if(res[0][0] == undefined){
+            log("User not found in database", "error")
+            return null
+        }
+        
         const User = await this.parse(res)
 
         return User;

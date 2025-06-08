@@ -2,6 +2,7 @@ import e from "express";
 import { log } from "./log";
 import argon2 from 'argon2';
 import { Cryption } from "./cryption";
+import { MailHandler } from "./mailHandler";
 
 export interface userProperty{
     id?:number,
@@ -103,5 +104,14 @@ export class user{
         this.salt = salt;
 
         this.password = await hashedPassword; 
+    }
+
+    async resetPassword(){
+        log("reseting Password for user: " + this.username);
+        const passwordResetCode = Cryption.generateResetCode(8);
+
+        this.passwordResetCode = passwordResetCode;
+
+        MailHandler.sendMail(this.email, "Reset Password",this.passwordResetCode);
     }
 }
