@@ -45,6 +45,7 @@ loginRouter.post("/login", async (req, res) => {
         res.status(401).json({
             message: "wrong username or password"
         });
+        
         log("User name or Password given in the request where not found in data base", "error");
         logEnd();
         return;
