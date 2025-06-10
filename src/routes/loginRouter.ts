@@ -16,7 +16,15 @@ declare module "express-session" {
 
 loginRouter.post("/test", (req, res) =>{
     log("test recived");
-    log(req.session.user)
+    
+    if(!req.session.user){
+        log("User not Authenticated", "error");
+        logEnd();
+        res.sendStatus(401)
+        return;
+    }
+    log("User Authenticated", "success");
+    logEnd()
     res.header({
         'Access-Control-Allow-Credentials': true
     }).status(200).json({
