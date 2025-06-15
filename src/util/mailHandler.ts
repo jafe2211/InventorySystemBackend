@@ -12,7 +12,7 @@ export class MailHandler {
             secure: ConfigHandler.config.settings.mail.mailSecure, 
             auth: {
                 user: ConfigHandler.config.settings.mail.mailUser,
-                pass: ConfigHandler.config.settings.mail.mailPass
+                pass: ConfigHandler.config.settings.mail.mailPassword
             }});
         try {
             await transporter.sendMail({
@@ -41,7 +41,7 @@ export class MailHandler {
             secure: ConfigHandler.config.settings.mail.mailSecure, 
             auth: {
                 user: ConfigHandler.config.settings.mail.mailUser,
-                pass: ConfigHandler.config.settings.mail.mailPass
+                pass: ConfigHandler.config.settings.mail.mailPassword
             }});
         try {
             await transporter.sendMail({

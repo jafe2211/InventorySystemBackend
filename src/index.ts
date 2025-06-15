@@ -28,7 +28,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(session({
-  secret: ConfigHandler.config.Security.SECRET_KEY,
+  secret: ConfigHandler.config.settings.security.secretIv,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }

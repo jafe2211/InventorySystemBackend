@@ -11,10 +11,10 @@ export class Database {
 
     static async createPool(){
         pool = mysql2.createPool({
-            host: ConfigHandler.config.settings.dbHost,
-            user: ConfigHandler.config.settings.dbUser,
-            password: ConfigHandler.config.settings.dbPass,
-            database: ConfigHandler.config.settings.dbBase,
+            host: ConfigHandler.config.settings.database.dbHost,
+            user: ConfigHandler.config.settings.database.dbUser,
+            password: ConfigHandler.config.settings.database.dbPassword,
+            database: ConfigHandler.config.settings.database.dbDatabase,
         });
     }
 

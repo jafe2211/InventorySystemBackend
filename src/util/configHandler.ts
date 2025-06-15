@@ -2,28 +2,37 @@ import fs from 'fs';
 
 import { log } from './log.js';
 
-/*export interface config {
-    settings: string[] = [
-        "logToFile",
-        "logToConsole",
-        "logPath",
-        "appPort",
-        "dbHost",
-        "dbUser",
-        "dbPass",
-        "dbBase",
-        "mailUser",
-        "mailPass"];
-    Security: string[] = [
-        "SECRET_KEY",
-        "SECRET_IV",
-        "encryptionMethod"];
+export interface Config {
+    settings: {
+        logToFile: Boolean;
+        logToConsole: Boolean;
+        logPath:string;
+        appPort:Number;
+        database: {
+            dbHost:string;
+            dbUser:string;
+            dbPassword:string;
+            dbDatabase:string;
+        }
+        mail:{
+            mailHost:string;
+            mailPort:number;
+            mailSecure:Boolean;
+            mailUser:string;
+            mailPassword:String;
+        }
+        security: {
+            secretKey:string;
+            secretIv:string;
+            encryptionMethod:string;
+        }
+    }
 }
-*/
+
 
 //define the config class
 export class ConfigHandler {
-    static config: any;
+    static config:Config;
 
     /// Method to setup the config system. needs to be called before using the config system.
     static setup(): void {
@@ -40,25 +49,25 @@ export class ConfigHandler {
                     logToConsole: true,
                     logPath: "./Logs",
                     appPort: 3000,
-                    dbHost: "",
-                    dbUser: "",
-                    dbPass: "",
-                    dbBase: "",
+                    database: {
+                        dbHost: "",
+                        dbUser: "",
+                        dbPass: "",
+                        dbBase: "",
+                    },
                     mail: {
                         mailHost: "",
                         mailPort: 465,
                         mailSecure: true,
                         mailUser: "",
                         mailPass: ""
+                    },
+                    security:{
+                        secretKey:"",
+                        secretIv: "",
+                        encryptionMethod: "",
                     }
                 },
-
-                Security: {
-                    SECRET_KEY: "",
-                    SECRET_IV: "",
-                    encryptionMethod: "",
-                },
-
             }, null, 2));
         }
 
