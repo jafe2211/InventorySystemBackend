@@ -13,6 +13,7 @@ export interface Config {
             dbUser:string;
             dbPassword:string;
             dbDatabase:string;
+            dbPort:number;
         }
         mail:{
             mailHost:string;
@@ -52,8 +53,9 @@ export class ConfigHandler {
                     database: {
                         dbHost: "",
                         dbUser: "",
-                        dbPass: "",
+                        dbPassword: "",
                         dbBase: "",
+                        dbPort: 3306,
                     },
                     mail: {
                         mailHost: "",

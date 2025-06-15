@@ -2,6 +2,7 @@ import mysql2 from "mysql2";
 
 import { ConfigHandler } from './configHandler';
 import { log } from "./log";
+import { Sequelize } from "sequelize";
 
 ConfigHandler.setup();
 
@@ -15,6 +16,7 @@ export class Database {
             user: ConfigHandler.config.settings.database.dbUser,
             password: ConfigHandler.config.settings.database.dbPassword,
             database: ConfigHandler.config.settings.database.dbDatabase,
+            port: ConfigHandler.config.settings.database.dbPort
         });
     }
 
@@ -26,5 +28,5 @@ export class Database {
     static async checkConnection(){
         var connenction = pool.promise().getConnection();
         return connenction;
-    }
+    } 
 }
