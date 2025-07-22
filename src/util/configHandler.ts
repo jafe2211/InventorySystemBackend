@@ -41,8 +41,6 @@ export class ConfigHandler {
         //checking if the config file exists
         if (!fs.existsSync("./config.json")) {
 
-            log("Config file not found, creating new one...", "warn");
-
             //create the config file with default values
             fs.writeFileSync("./config.json", JSON.stringify({
                 settings: {
@@ -71,6 +69,13 @@ export class ConfigHandler {
                     }
                 },
             }, null, 2));
+            //reading the config file and parsing it into an object
+            this.config = JSON.parse(fs.readFileSync("./config.json", 'utf8'));
+
+            log("Config file not found, creating new one...", "warn");
+            log("Please fill in the config file with your settings!", "warn");
+            log("Exiting the program...", "error");
+            process.exit(1);
         }
 
         //reading the config file and parsing it into an object
