@@ -1,6 +1,6 @@
 import { Request, Response } from "express-serve-static-core";
 import { ParsedQs } from "qs";
-import { log } from "./log";
+import { log } from "../Modules/ModuleLib/util/log";
 
 export class requestChecker {
     static checkForParameter(req: Request, parameters: string): boolean {

@@ -3,8 +3,8 @@ import session from "express-session";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { log, logEnd } from "./util/log";
-import { ConfigHandler } from "./util/configHandler";
+import { log, logEnd } from "./Modules/ModuleLib/util/log";
+import { ConfigHandler } from "./Modules/ModuleLib/util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";

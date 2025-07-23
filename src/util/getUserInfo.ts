@@ -1,5 +1,5 @@
 import { Database } from "./database";
-import { log } from "./log";
+import { log } from "../Modules/ModuleLib/util/log";
 import { user, userProperty } from './user';
 
 export class getUser{
