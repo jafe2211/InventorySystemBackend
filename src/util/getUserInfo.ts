@@ -1,4 +1,4 @@
-import { Database } from "./database";
+import { Database } from "../Modules/ModuleLib/util/database";
 import { log } from "../Modules/ModuleLib/util/log";
 import { user, userProperty } from './user';
 

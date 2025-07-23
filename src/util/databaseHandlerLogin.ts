@@ -1,7 +1,7 @@
 import argon2 from "argon2";
 
 import { Cryption } from "../Modules/ModuleLib/util/cryption";
-import { Database } from "./database";
+import { Database } from "../Modules/ModuleLib/util/database";
 import { log } from "../Modules/ModuleLib/util/log";
 import { user } from "./user";
 

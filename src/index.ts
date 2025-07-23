@@ -40,8 +40,8 @@ app.use("/userManagement", userManagementRouter);
 
 (async () => {
   if (await main.startup() == true) {
-    app.listen(ConfigHandler.config.settings.appPort, async () => {
-      log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
+    app.listen(ConfigHandler.config.settings.app.appPort, async () => {
+      log(`Server is running on port ${ConfigHandler.config.settings.app.appPort}`, "info");
       log("startup done!", "success")
       logEnd();
     });

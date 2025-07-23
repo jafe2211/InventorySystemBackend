@@ -1,7 +1,7 @@
 import mysql2 from "mysql2";
 
-import { ConfigHandler } from '../Modules/ModuleLib/util/configHandler';
-import { log } from "../Modules/ModuleLib/util/log";
+import { ConfigHandler } from './configHandler';
+import { log } from "./log";
 import { Sequelize } from "sequelize";
 
 ConfigHandler.setup();
