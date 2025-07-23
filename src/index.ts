@@ -5,10 +5,10 @@ import bodyParser from "body-parser";
 
 import { log, logEnd } from "./Modules/ModuleLib/util/log";
 import { ConfigHandler } from "./Modules/ModuleLib/util/configHandler";
-import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";
 import { getUser } from "./util/getUserInfo";
+import { main } from "./Modules/ModuleLib";
 
 const app = express();
 
@@ -39,12 +39,14 @@ app.use("/login", loginRouter);
 app.use("/userManagement", userManagementRouter);
 
 (async () => {
-  if (await main.startup() == true) {
+  //if (await main.startup() == true) {
     app.listen(ConfigHandler.config.settings.app.appPort, async () => {
       log(`Server is running on port ${ConfigHandler.config.settings.app.appPort}`, "info");
       log("startup done!", "success")
+
+      await main.init();
       logEnd();
     });
 
-  }
+ // }
 })();

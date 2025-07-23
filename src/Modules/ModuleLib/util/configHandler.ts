@@ -73,7 +73,7 @@ export class ConfigHandler {
                     app:{
                         appPort: 3000,
                         appName: "Inventory System Backend",
-                        appAuther: ""
+                        appAuther: "Unknown"
                     },
                     database: {
                         dbHost: "",
@@ -95,7 +95,7 @@ export class ConfigHandler {
                         encryptionMethod: "",
                     },
                     modules: {
-                        
+
                     }
                 },
             }, null, 2));
