@@ -1,4 +1,5 @@
 import fs from "fs";
+import { ConfigHandler } from "./util/configHandler";
 
 export class main {
     static async startup(): Promise<boolean>{

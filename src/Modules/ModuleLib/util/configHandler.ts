@@ -4,10 +4,16 @@ import { log } from './log.js';
 
 export interface Config {
     settings: {
-        logToFile: Boolean;
-        logToConsole: Boolean;
-        logPath:string;
-        appPort:Number;
+        log:{
+            logToFile: Boolean;
+            logToConsole: Boolean;
+            logPath:string;
+        }
+        app:{
+            appPort:number;
+            appName:string;
+            appAuther:string;
+        }
         database: {
             dbHost:string;
             dbUser:string;
@@ -27,7 +33,22 @@ export interface Config {
             secretIv:string;
             encryptionMethod:string;
         }
+        modules: {
+            [name: string]: Module;
+        }
     }
+}
+
+enum ModuleType {
+    mixed = "mixed",
+    router = "router",
+    functionPackage = "functionPackage",
+}
+
+interface Module{
+    enabled: boolean;
+    type: ModuleType;
+    path?: string;
 }
 
 
@@ -44,10 +65,16 @@ export class ConfigHandler {
             //create the config file with default values
             fs.writeFileSync("./config.json", JSON.stringify({
                 settings: {
-                    logToFile: false,
-                    logToConsole: true,
-                    logPath: "./Logs",
-                    appPort: 3000,
+                    log: {
+                        logToFile: false,
+                        logToConsole: true,
+                        logPath: "./Logs"
+                    },
+                    app:{
+                        appPort: 3000,
+                        appName: "Inventory System Backend",
+                        appAuther: ""
+                    },
                     database: {
                         dbHost: "",
                         dbUser: "",
@@ -66,6 +93,9 @@ export class ConfigHandler {
                         secretKey:"",
                         secretIv: "",
                         encryptionMethod: "",
+                    },
+                    modules: {
+                        
                     }
                 },
             }, null, 2));
