@@ -54,7 +54,7 @@ export class ConfigHandler {
                         dbHost: "",
                         dbUser: "",
                         dbPassword: "",
-                        dbBase: "",
+                        dbDatabase: "",
                         dbPort: 3306,
                     },
                     mail: {

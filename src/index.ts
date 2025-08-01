@@ -8,7 +8,6 @@ import { ConfigHandler } from "./util/configHandler";
 import { main } from "./util/main";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";
-import { getUser } from "./util/getUserInfo";
 
 const app = express();
 

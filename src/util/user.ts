@@ -25,8 +25,24 @@ export class user{
     salt?: string;
     password?: string;
 
-    static publicPermissions: string[] = [
-        "updateUserPermissions"
+    static permissionList: string[] = [
+        "CREATE_USER",
+        "DELETE_USER",
+        "UPDATE_USER",
+        "RESET_PASSWORD_OF_USER",
+        "CREATE_TYPE",
+        "CREATE_ITEM_TYPE",
+        "CREATE_ITEM",
+        "UPDATE_ITEM",
+        "UPDATE_ITEM_TYPE",
+        "UPDATE_TYPE",
+        "DELETE_ITEM",
+        "DELETE_ITEM_TYPE",
+        "DELETE_TYPE",
+        "VIEW_ITEMS",
+        "SCHEDULE_EVENTS",
+        "EDIT_EVENTS",
+        "DELETE_EVENTS",
     ];
 
     constructor(username: string, email: string, id:number, permissions: string[], superuser: boolean) {

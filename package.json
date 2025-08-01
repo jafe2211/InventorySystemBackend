@@ -25,7 +25,6 @@
     "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
     "mysql2": "^3.14.1",
-    "nodemailer": "^7.0.3",
-    "sequelize": "^6.37.7"
+    "nodemailer": "^7.0.3"
   }
 }

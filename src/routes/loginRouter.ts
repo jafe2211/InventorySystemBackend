@@ -28,8 +28,9 @@ loginRouter.post("/test", (req, res) =>{
     res.header({
         'Access-Control-Allow-Credentials': true
     }).status(200).json({
-        "message": req.session.user
-    })
+        message: "Login successful",
+        user: req.session.user
+    });
 })
 
 loginRouter.post("/login", async (req, res) => {
@@ -55,7 +56,10 @@ loginRouter.post("/login", async (req, res) => {
     req.session.save();
     res.header({
         'Access-Control-Allow-Credentials': true
-    }).sendStatus(200);
+    }).status(200).json({
+        message: "Login successful",
+        user: req.session.user
+    });
 
     log("Login request successful for user: " + req.session.user.username, "success");
     logEnd();

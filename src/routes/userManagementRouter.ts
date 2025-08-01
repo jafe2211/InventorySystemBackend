@@ -17,17 +17,19 @@ declare module "express-session" {
 
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
-        if(!requestChecker.checkForDataInBody(req, ["username", "email"]) == true){
+        if(!requestChecker.checkForDataInBody(req, ["username", "email", "permissions"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
+            log("Request Body was empty or missing required Data!", "error");
             return;
         }
-    
+
         if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
             requestChecker.returnCustomResponse(res, 400, "Username already exists");
+            log("Username already exists", "error");
             return;
         }
-    
-        const user =  await DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email);
+
+        const user = await DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email, req.body.permissions);
 
         if(user == null) {
             requestChecker.returnCustomResponse(res, 500, "Internal server error");
@@ -184,3 +186,9 @@ userManagementRouter.post('/updatePermissions', async (req, res) => {
         return;
     }
 });
+
+userManagementRouter.get("/getAllPermissions", async (req, res) =>{
+    res.status(200).json({
+        permissions: user.permissionList
+    });
+})

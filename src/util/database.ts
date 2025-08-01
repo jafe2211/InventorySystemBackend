@@ -2,7 +2,6 @@ import mysql2 from "mysql2";
 
 import { ConfigHandler } from './configHandler';
 import { log } from "./log";
-import { Sequelize } from "sequelize";
 
 ConfigHandler.setup();
 
@@ -29,4 +28,29 @@ export class Database {
         var connenction = pool.promise().getConnection();
         return connenction;
     } 
+
+    static async checkForTable(TableName:string, DatabaseName:string){
+       return await this.query(`SELECT count(*)
+                    FROM information_schema.tables
+                    WHERE table_schema = '${DatabaseName}'
+                    AND table_name = '${TableName}'`)
+    }
+
+    static async setup(){
+        if (!pool) {
+            log("Creating database connection pool...", "info");
+            await this.createPool();
+            log("Database connection pool created successfully.", "info");
+        } else {
+            log("Database connection pool already exists.", "error");
+        }
+
+        try {
+            await this.checkConnection();
+            log("Database connection is healthy.", "info");
+        } catch (error) {
+            log("Database connection failed: " + error, "error");
+        }
+
+    }
 }

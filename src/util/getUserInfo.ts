@@ -31,7 +31,7 @@ export class getUser{
 
     }
 
-    static async by(identifyers:userProperty)//:Promise<user> 
+    static async by(identifyers:userProperty):Promise<user> 
     {
         var index = 0;
         var query = "SELECT * FROM users WHERE"

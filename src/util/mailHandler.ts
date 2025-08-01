@@ -45,7 +45,7 @@ export class MailHandler {
             }});
         try {
             await transporter.sendMail({
-                from:  "test123@test.se",
+                from: ConfigHandler.config.settings.mail.mailUser,
                 to: to,
                 subject: subject,
                 html: html
