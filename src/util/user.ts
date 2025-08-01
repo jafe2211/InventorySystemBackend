@@ -1,8 +1,8 @@
 import e from "express";
-import { log } from "./log";
+import { log } from "../Modules/ModuleLib/util/log";
 import argon2 from 'argon2';
-import { Cryption } from "./cryption";
-import { MailHandler } from "./mailHandler";
+import { Cryption } from "../Modules/ModuleLib/util/cryption";
+import { MailHandler } from "../Modules/ModuleLib/util/mailHandler";
 
 export interface userProperty{
     id?:number,

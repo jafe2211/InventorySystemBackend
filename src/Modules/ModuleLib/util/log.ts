@@ -26,9 +26,9 @@ export function log(message, type?: string) {
     const Time = new Date();
 
     //write Message to Log file
-    if (ConfigHandler.config.settings.logToFile) {
-        if (!fs.existsSync(ConfigHandler.config.settings.logPath)) {
-            fs.mkdirSync(ConfigHandler.config.settings.logPath);
+    if (ConfigHandler.config.settings.log.logToFile) {
+        if (!fs.existsSync(ConfigHandler.config.settings.log.logPath)) {
+            fs.mkdirSync(ConfigHandler.config.settings.log.logPath);
         }
 
         if(type == "standard") {
@@ -73,7 +73,7 @@ export function log(message, type?: string) {
 
 
   //log the message to the console
-  if (ConfigHandler.config.settings.logToConsole) {
+  if (ConfigHandler.config.settings.log.logToConsole) {
     if(type == "standard") {
         console.log(`[${Time.toLocaleTimeString('de-DE',)}] ${message}`)
         LastLog = `${message}`;

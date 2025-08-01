@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { log, logEnd } from '../util/log';
+import { log, logEnd } from '../Modules/ModuleLib/util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
 import { user } from '../util/user';
-import { MailHandler } from '../util/mailHandler';
+import { MailHandler } from '../Modules/ModuleLib/util/mailHandler';
 import { EmailTemplates } from '../Email Templates/EmailTemplates';
 import { getUser } from '../util/getUserInfo';
 

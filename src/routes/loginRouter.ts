@@ -1,7 +1,7 @@
 import express from "express";
 
 import { requestChecker } from "../util/requestChecker";
-import { log, logEnd } from "../util/log";
+import { log, logEnd } from "../Modules/ModuleLib/util/log";
 import { DatabaseHandlerLogin } from "../util/databaseHandlerLogin";
 import { user } from "../util/user";
 import { getUser } from '../util/getUserInfo';

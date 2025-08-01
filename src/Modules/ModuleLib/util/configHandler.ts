@@ -4,10 +4,16 @@ import { log } from './log.js';
 
 export interface Config {
     settings: {
-        logToFile: Boolean;
-        logToConsole: Boolean;
-        logPath:string;
-        appPort:Number;
+        log:{
+            logToFile: Boolean;
+            logToConsole: Boolean;
+            logPath:string;
+        }
+        app:{
+            appPort:number;
+            appName:string;
+            appAuther:string;
+        }
         database: {
             dbHost:string;
             dbUser:string;
@@ -27,7 +33,22 @@ export interface Config {
             secretIv:string;
             encryptionMethod:string;
         }
+        modules: {
+            [name: string]: Module;
+        }
     }
+}
+
+enum ModuleType {
+    mixed = "mixed",
+    router = "router",
+    functionPackage = "functionPackage",
+}
+
+interface Module{
+    enabled: boolean;
+    type: ModuleType;
+    path?: string;
 }
 
 
@@ -41,15 +62,19 @@ export class ConfigHandler {
         //checking if the config file exists
         if (!fs.existsSync("./config.json")) {
 
-            log("Config file not found, creating new one...", "warn");
-
             //create the config file with default values
             fs.writeFileSync("./config.json", JSON.stringify({
                 settings: {
-                    logToFile: false,
-                    logToConsole: true,
-                    logPath: "./Logs",
-                    appPort: 3000,
+                    log: {
+                        logToFile: false,
+                        logToConsole: true,
+                        logPath: "./Logs"
+                    },
+                    app:{
+                        appPort: 3000,
+                        appName: "Inventory System Backend",
+                        appAuther: "Unknown"
+                    },
                     database: {
                         dbHost: "",
                         dbUser: "",
@@ -68,9 +93,19 @@ export class ConfigHandler {
                         secretKey:"",
                         secretIv: "",
                         encryptionMethod: "",
+                    },
+                    modules: {
+
                     }
                 },
             }, null, 2));
+            //reading the config file and parsing it into an object
+            this.config = JSON.parse(fs.readFileSync("./config.json", 'utf8'));
+
+            log("Config file not found, creating new one...", "warn");
+            log("Please fill in the config file with your settings!", "warn");
+            log("Exiting the program...", "error");
+            process.exit(1);
         }
 
         //reading the config file and parsing it into an object

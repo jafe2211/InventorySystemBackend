@@ -3,11 +3,15 @@ import session from "express-session";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { log, logEnd } from "./util/log";
-import { ConfigHandler } from "./util/configHandler";
-import { main } from "./util/main";
+import { log, logEnd } from "./Modules/ModuleLib/util/log";
+import { ConfigHandler } from "./Modules/ModuleLib/util/configHandler";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";
+<<<<<<< HEAD
+=======
+import { getUser } from "./util/getUserInfo";
+import { main } from "./Modules/ModuleLib";
+>>>>>>> 157a51df5f42bb15bc08c91633897a866d9de676
 
 const app = express();
 
@@ -38,12 +42,14 @@ app.use("/login", loginRouter);
 app.use("/userManagement", userManagementRouter);
 
 (async () => {
-  if (await main.startup() == true) {
-    app.listen(ConfigHandler.config.settings.appPort, async () => {
-      log(`Server is running on port ${ConfigHandler.config.settings.appPort}`, "info");
+  //if (await main.startup() == true) {
+    app.listen(ConfigHandler.config.settings.app.appPort, async () => {
+      log(`Server is running on port ${ConfigHandler.config.settings.app.appPort}`, "info");
       log("startup done!", "success")
+
+      await main.init();
       logEnd();
     });
 
-  }
+ // }
 })();

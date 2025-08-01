@@ -1,8 +1,8 @@
 import argon2 from "argon2";
 
-import { Cryption } from "./cryption";
-import { Database } from "./database";
-import { log } from "./log";
+import { Cryption } from "../Modules/ModuleLib/util/cryption";
+import { Database } from "../Modules/ModuleLib/util/database";
+import { log } from "../Modules/ModuleLib/util/log";
 import { user } from "./user";
 
 export class DatabaseHandlerLogin {
