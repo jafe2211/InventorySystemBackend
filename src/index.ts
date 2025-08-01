@@ -7,11 +7,8 @@ import { log, logEnd } from "./Modules/ModuleLib/util/log";
 import { ConfigHandler } from "./Modules/ModuleLib/util/configHandler";
 import { loginRouter } from "./routes/loginRouter";
 import { userManagementRouter } from "./routes/userManagementRouter";
-<<<<<<< HEAD
-=======
 import { getUser } from "./util/getUserInfo";
 import { main } from "./Modules/ModuleLib";
->>>>>>> 157a51df5f42bb15bc08c91633897a866d9de676
 
 const app = express();
 
