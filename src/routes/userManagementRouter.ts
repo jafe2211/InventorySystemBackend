@@ -17,7 +17,7 @@ declare module "express-session" {
 
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
-        if(!requestChecker.checkForDataInBody(req, ["username", "email", "permissions"]) == true){
+        if(!requestChecker.checkForDataInBody(req, ["username", "email", "permissions", "superuser"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
             log("Request Body was empty or missing required Data!", "error");
             return;
@@ -29,7 +29,7 @@ userManagementRouter.post('/createUser', async (req, res) => {
             return;
         }
 
-        const user = await DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email, req.body.permissions);
+        const user = await DatabaseHandlerLogin.createNewUser(req.body.username, req.body.email, req.body.permissions, req.body.superuser);
 
         if(user == null) {
             requestChecker.returnCustomResponse(res, 500, "Internal server error");

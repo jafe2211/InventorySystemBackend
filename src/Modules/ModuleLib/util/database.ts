@@ -20,8 +20,13 @@ export class Database {
     }
 
     static async query(sql:string){
-        const [rows] = await pool.promise().query(sql);
-        return [rows];
+        try{
+            const [rows] = await pool.promise().query(sql);
+            return [rows];
+        } catch (error) {
+            log("Database query error: " + error, "error");
+
+        }
     }
 
     static async checkConnection(){

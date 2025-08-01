@@ -7,22 +7,24 @@ import { user } from "./user";
 
 export class DatabaseHandlerLogin {
 
-    static async createNewUser(username: string, email:string, permissions: string[]) {
+    static async createNewUser(username: string, email:string, permissions: string[], superuser: boolean = false): Promise<user> {
         //const salt = Cryption.generateSalt(32);
         //const passwordToBeHashed = password + salt;
         //const hashedPassword = await argon2.hash(passwordToBeHashed);
         const perm = JSON.stringify({
             "permissions": permissions});
+
+        const suUser = superuser ? 1 : 0;
         const passwordResetCode = Cryption.generateResetCode(8);
 
-        const query = "INSERT INTO users (name, email, permissions, superuser, passwordResetCode) VALUES ('" + username + "', '" + email + "', + '" + perm + "', 0, '" + passwordResetCode + "')";
+        const query = "INSERT INTO users (name, email, permissions, superuser, passwordResetCode) VALUES ('" + username + "', '" + email + "', + '" + perm + "', " + suUser + ", '" + passwordResetCode + "')";
 
         const User = new user(
             username,
             email,
             0,
             permissions,
-            false
+            superuser
         );
 
         User.passwordResetCode = passwordResetCode;

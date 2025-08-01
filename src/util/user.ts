@@ -54,7 +54,7 @@ export class user{
     }
 
     checkPermission(permission:string):boolean {
-        if(!(this.permissions.includes(permission))) return false;
+        if(!(this.permissions.includes(permission)) && !(this.superuser)) return false;
         
         return true;
     }

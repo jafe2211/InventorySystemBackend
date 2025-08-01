@@ -1,11 +1,12 @@
 import fs from "fs";
 import { ConfigHandler } from "./util/configHandler";
 import { log } from "./util/log";
+import { Database } from "./util/database";
 
 export class main {
     static async init(): Promise<boolean>{
         this.printASciiArt();
-        this.loadModules();
+        //this.loadModules();
         return true;
     }
 
@@ -42,5 +43,6 @@ export class main {
         }
         console.log(asciiArt);
         log("made by: " + ConfigHandler.config.settings.app.appAuther || "Unknown");
+        Database.createPool();
     }
 }
