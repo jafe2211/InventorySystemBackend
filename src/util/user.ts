@@ -15,6 +15,32 @@ export interface userProperty{
     password?:string
 }
 
+export enum UserPermissions {
+    CREATE_USER = "createUser",
+    DELETE_USER = "deleteUser",
+    UPDATE_USER = "updateUser",
+    RESET_PASSWORD_OF_USER = "resetPasswordOfUser",
+    VIEW_ALL_USERS = "viewAllUsers",
+    
+    CREATE_TYPE = "createType",
+    CREATE_ITEM_TYPE = "createItemType",
+    CREATE_ITEM = "createItem",
+    
+    UPDATE_ITEM = "updateItem",
+    UPDATE_ITEM_TYPE = "updateItemType",
+    UPDATE_TYPE = "updateType",
+    
+    DELETE_ITEM = "deleteItem",
+    DELETE_ITEM_TYPE = "deleteItemType",
+    DELETE_TYPE = "deleteType",
+    
+    VIEW_ITEMS = "viewItems",
+    
+    SCHEDULE_EVENTS = "scheduleEvents",
+    EDIT_EVENTS = "editEvents",
+    DELETE_EVENTS = "deleteEvents",
+}
+
 export class user{
     id: number;
     username: string;
@@ -30,6 +56,7 @@ export class user{
         "DELETE_USER",
         "UPDATE_USER",
         "RESET_PASSWORD_OF_USER",
+        "VIEW_ALL_USERS",
         "CREATE_TYPE",
         "CREATE_ITEM_TYPE",
         "CREATE_ITEM",
@@ -53,7 +80,7 @@ export class user{
         this.superuser = superuser;
     }
 
-    checkPermission(permission:string):boolean {
+    checkPermission(permission: UserPermissions):boolean {
         if(!(this.permissions.includes(permission)) && !(this.superuser)) return false;
         
         return true;

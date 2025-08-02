@@ -3,7 +3,7 @@ import express from 'express';
 import { log, logEnd } from '../Modules/ModuleLib/util/log';
 import { requestChecker } from '../util/requestChecker';
 import { DatabaseHandlerLogin } from '../util/databaseHandlerLogin';
-import { user } from '../util/user';
+import { user, UserPermissions } from '../util/user';
 import { MailHandler } from '../Modules/ModuleLib/util/mailHandler';
 import { EmailTemplates } from '../Email Templates/EmailTemplates';
 import { getUser } from '../util/getUserInfo';
@@ -17,11 +17,14 @@ declare module "express-session" {
 
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
+
+            console.log(req.body);
         if(!requestChecker.checkForDataInBody(req, ["username", "email", "permissions", "superuser"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
             log("Request Body was empty or missing required Data!", "error");
             return;
         }
+        console.log(req.body);
 
         if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
             requestChecker.returnCustomResponse(res, 400, "Username already exists");
@@ -125,7 +128,7 @@ userManagementRouter.post('/addPermissions', async (req, res) => {
     }
     const RequestUser = await getUser.by({username: req.session.user.username});
 
-    if(!RequestUser.checkPermission("updateUserPermissions")){
+    if(!RequestUser.checkPermission(UserPermissions.UPDATE_USER)){
         requestChecker.returnCustomResponse(res, 403, "You do not have permission to update user permissions");
         return;
     }
@@ -162,7 +165,7 @@ userManagementRouter.post('/updatePermissions', async (req, res) => {
     }
     const RequestUser = await getUser.by({username: req.session.user.username});
 
-    if(!RequestUser.checkPermission("updateUserPermissions")){
+    if(!RequestUser.checkPermission(UserPermissions.UPDATE_USER)){
         requestChecker.returnCustomResponse(res, 403, "You do not have permission to update user permissions");
         return;
     }
@@ -192,3 +195,29 @@ userManagementRouter.get("/getAllPermissions", async (req, res) =>{
         permissions: user.permissionList
     });
 })
+
+userManagementRouter.get("/getAllUsers", async (req, res) => {
+    log("getAllUsers request received");
+
+    if(req.session.user == undefined || req.session.user == null) {
+        requestChecker.returnCustomResponse(res, 401, "You are not logged in");
+        return;
+    }
+
+    const RequestUser = await getUser.by({username: req.session.user.username});
+
+    if(!RequestUser.checkPermission(UserPermissions.VIEW_ALL_USERS)){
+        requestChecker.returnCustomResponse(res, 403, "You do not have permission to view all users");
+        return;
+    }
+
+    //const users = await DatabaseHandlerLogin.getAllUsers();
+
+    //if(users == null) {
+    //    requestChecker.returnCustomResponse(res, 500, "Internal server error");
+    //}
+
+    res.status(200).json({"test": "test"});
+    log("getAllUsers request successful");
+    logEnd();
+});
