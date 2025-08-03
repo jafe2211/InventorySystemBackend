@@ -211,13 +211,13 @@ userManagementRouter.get("/getAllUsers", async (req, res) => {
         return;
     }
 
-    //const users = await DatabaseHandlerLogin.getAllUsers();
+    const users = await DatabaseHandlerLogin.getAllUsers();
 
-    //if(users == null) {
-    //    requestChecker.returnCustomResponse(res, 500, "Internal server error");
-    //}
+    if(users == null) {
+        requestChecker.returnCustomResponse(res, 500, "Internal server error");
+    }
 
-    res.status(200).json({"test": "test"});
+    res.status(200).json({"users": users});
     log("getAllUsers request successful");
     logEnd();
 });

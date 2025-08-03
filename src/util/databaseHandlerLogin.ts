@@ -6,6 +6,27 @@ import { log } from "../Modules/ModuleLib/util/log";
 import { user } from "./user";
 
 export class DatabaseHandlerLogin {
+    static async getAllUsers() {
+        const query = "SELECT name, ID FROM users";
+        try {
+            const results = await Database.query(query);
+            if (results[0][0].length === 0) {
+                log("No users found in the database", "info");
+                return [];
+            }
+            const rows = Array.isArray(results[0]) ? results[0] : [];
+            const users: any[] = rows.map((row: any) => {
+                return {
+                    name: row.name,
+                    id: row.ID,
+                }
+            });
+            return users;
+        } catch (error) {
+            log("Error fetching all users: " + error, "error");
+            return null;
+        }
+    }
 
     static async createNewUser(username: string, email:string, permissions: string[], superuser: boolean = false): Promise<user> {
         //const salt = Cryption.generateSalt(32);
