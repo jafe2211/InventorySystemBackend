@@ -29,7 +29,17 @@ export class requestChecker {
 
         try {
             for (const item of data) {
-                if (req.body[item] == undefined|| req.body[item] == null || req.body[item] == "") {
+                if (req.body[item] == undefined|| req.body[item] == null || req.body[item] == "" && req.body[item] != false) {
+                    console.log("Missing data in request body: " + item);
+                    if(req.body[item] == undefined){
+                        log("1")
+                    }
+                    if(req.body[item] == null){
+                        log("2")
+                    }
+                    if(req.body[item] == "" && req.body[item] != false){
+                        log("3")
+                    }
                     return false;
                 }
             }

@@ -17,14 +17,11 @@ declare module "express-session" {
 
 userManagementRouter.post('/createUser', async (req, res) => {
     log("createNewUser request received");
-
-            console.log(req.body);
         if(!requestChecker.checkForDataInBody(req, ["username", "email", "permissions", "superuser"]) == true){
             requestChecker.returnEmptyBodyResponse(res);
             log("Request Body was empty or missing required Data!", "error");
             return;
         }
-        console.log(req.body);
 
         if(await DatabaseHandlerLogin.checkIfUserExsists(req.body.username) == true){
             requestChecker.returnCustomResponse(res, 400, "Username already exists");
@@ -107,6 +104,39 @@ userManagementRouter.delete('/deleteNewUser/:passwordResetCode', async (req, res
 
     if(userToDelete == null) {
         requestChecker.returnCustomResponse(res, 404, "Not valid password reset code");
+        return;
+    }
+
+    await DatabaseHandlerLogin.deleteUser(userToDelete);
+
+    requestChecker.returnCustomResponse(res, 200, "User deleted successfully");
+    log("--------------------------------------------");
+});
+
+userManagementRouter.delete('/deleteUser/', async (req, res) => {
+    log("deleteUser request received");
+
+    if(!requestChecker.checkForDataInBody(req, ["id"]) == true){
+        requestChecker.returnEmptyBodyResponse(res);
+        return;
+    }
+
+    if(req.session.user == undefined || req.session.user == null) {
+        requestChecker.returnCustomResponse(res, 401, "You are not logged in");
+        return;
+    }
+
+    const RequestUser = await getUser.by({id: req.session.user.id});
+
+    if(!RequestUser.checkPermission(UserPermissions.DELETE_USER)){
+        requestChecker.returnCustomResponse(res, 403, "You do not have permission to view all users");
+        return;
+    }
+
+    const userToDelete = await getUser.by({id: req.body.id});
+
+    if(userToDelete == null) {
+        requestChecker.returnCustomResponse(res, 404, "Not valid id");
         return;
     }
 

@@ -4,10 +4,11 @@ import { Cryption } from "../Modules/ModuleLib/util/cryption";
 import { Database } from "../Modules/ModuleLib/util/database";
 import { log } from "../Modules/ModuleLib/util/log";
 import { user } from "./user";
+import { permission } from "process";
 
 export class DatabaseHandlerLogin {
     static async getAllUsers() {
-        const query = "SELECT name, ID FROM users";
+        const query = "SELECT name, ID, superuser, permissions FROM users";
         try {
             const results = await Database.query(query);
             if (results[0][0].length === 0) {
@@ -19,6 +20,8 @@ export class DatabaseHandlerLogin {
                 return {
                     name: row.name,
                     id: row.ID,
+                    superuser: row.superuser === 1 ? true : false,
+                    permissions: JSON.parse(row.permissions).permissions
                 }
             });
             return users;
