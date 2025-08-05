@@ -8,7 +8,7 @@ import { permission } from "process";
 
 export class DatabaseHandlerLogin {
     static async getAllUsers() {
-        const query = "SELECT name, ID, superuser, permissions FROM users";
+        const query = "SELECT name, ID, superuser, permissions, email FROM users";
         try {
             const results = await Database.query(query);
             if (results[0][0].length === 0) {
@@ -21,7 +21,8 @@ export class DatabaseHandlerLogin {
                     name: row.name,
                     id: row.ID,
                     superuser: row.superuser === 1 ? true : false,
-                    permissions: JSON.parse(row.permissions).permissions
+                    permissions: JSON.parse(row.permissions).permissions,
+                    email: row.email
                 }
             });
             return users;

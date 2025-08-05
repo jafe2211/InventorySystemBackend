@@ -251,3 +251,39 @@ userManagementRouter.get("/getAllUsers", async (req, res) => {
     log("getAllUsers request successful");
     logEnd();
 });
+
+userManagementRouter.post("/updateUser", async (req, res) => {
+    log("updateUser request received"); 
+    if(!requestChecker.checkForDataInBody(req, ["id", "username", "email", "permissions", "superuser"]) == true){
+        requestChecker.returnEmptyBodyResponse(res);
+        return;
+    }
+
+    if(req.session.user == undefined || req.session.user == null) {
+        requestChecker.returnCustomResponse(res, 401, "You are not logged in");
+        return;
+    }
+    const RequestUser = await getUser.by({id: req.session.user.id});
+
+    if(!RequestUser.checkPermission(UserPermissions.UPDATE_USER)){
+        requestChecker.returnCustomResponse(res, 403, "You do not have permission to update user");
+        return;
+    }
+
+    const userToUpdate = await getUser.by({id: req.body.id});
+
+    if(userToUpdate == null) {
+        requestChecker.returnCustomResponse(res, 404, "User not found");
+        return;
+    }
+
+    userToUpdate.username = req.body.username;
+    userToUpdate.email = req.body.email;
+    userToUpdate.permissions = req.body.permissions;
+    userToUpdate.superuser = req.body.superuser;
+
+    await DatabaseHandlerLogin.updateUserInfo(userToUpdate);
+    requestChecker.returnCustomResponse(res, 200, "User updated successfully");
+    log("updateUser request successful for user: " + req.body.username);
+    log("--------------------------------------------");
+})
