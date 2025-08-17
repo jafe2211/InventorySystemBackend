@@ -284,6 +284,9 @@ userManagementRouter.post("/updateUser", async (req, res) => {
 
     await DatabaseHandlerLogin.updateUserInfo(userToUpdate);
     requestChecker.returnCustomResponse(res, 200, "User updated successfully");
+
+    req.session.user = userToUpdate; // Update the session with the new user data
+    req.session.save();
     log("updateUser request successful for user: " + req.body.username);
     log("--------------------------------------------");
 })
