@@ -29,7 +29,7 @@ export class Main {
         var asciiArt;
 
         try {
-            asciiArt = fs.readFileSync("./asciiArt.txt")
+            asciiArt = fs.readFileSync("./asciiArt.txt", "utf-8").toString();
         } catch (error) {
             log("Error reading ASCII art file:" + error, LogLevel.ERROR)
         }

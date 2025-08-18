@@ -2,12 +2,12 @@
   "name": "inventorysystem",
   "version": "0.0.1",
   "description": "An Inventory management System made to maneg the technical inventory",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc && node dist/index.js",
+    "dev": "tsc && node dist/server.js",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/server.js"
   },
   "author": "Jafe2211 & Avalyn09",
   "license": "ISC",
