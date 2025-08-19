@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import app from '../app';
+import app from '../app.js';
 
 interface configOptions {
     settings: {

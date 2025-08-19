@@ -1,7 +1,7 @@
 import clc from "cli-color"
 import fs from "fs"
 
-import { Config } from "./config"
+import { Config } from "./config.js"
 
 const time = new Date()
 

@@ -1,28 +1,18 @@
 import fs from "fs";
 
-import app from "./app";
-import { Config } from "./utils/config";
-import { log, LogLevel } from "./utils/log";
+import app from "./app.js";
+import { Config } from "./utils/config.js";
+import { log, LogLevel } from "./utils/log.js";
 
 export class Main {
 
     static async start() {
-        Config.setup();
-    
         this.printAsciiArt();
         log(`${Config.config.settings.app.NAME} Version: ${Config.config.settings.app.VERSION} made by ${Config.config.settings.app.AUTHOR}`)
         log("powered by Modul Lib")
-        log("Starting Server...", LogLevel.INFO);
-
-        app.listen(Config.config.settings.app.PORT, ()=>{
-            log("Server running on Port " + Config.config.settings.app.PORT, LogLevel.SUCCESS)
-        })
-    
+        log("Starting Server...", LogLevel.INFO);    
         }
-    
-    static stop() {
-        process.exit(0);
-    }
+
 
     static printAsciiArt() {
         var asciiArt;
@@ -38,4 +28,16 @@ export class Main {
 
 }
 
-Main.start();
+//Main.start();
+
+app.get("/t", (req, res) =>{
+
+})
+
+console.log("About to start server on port" + Config.config.settings.app.PORT);
+
+app.listen(Config.config.settings.app.PORT, async ()=>{
+    console.log("Server running on Port " + Config.config.settings.app.PORT, LogLevel.SUCCESS)
+})
+
+console.log("About to start server on port" + Config.config.settings.app.PORT);
