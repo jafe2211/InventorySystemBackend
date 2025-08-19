@@ -17,14 +17,12 @@ interface configOptions {
         security: {
             SECRET_KEY: string;
         },
-        Modules: {
-            [key: string]: {
-                ENABLED: boolean;
-                VERSION: string;
-                settings: {
-                    [key: string]: any;
-                }
-            };
+        database: {
+            HOST: string,
+            USER: string,
+            PASSWORD: string,
+            DATABASE: string,
+            PORT: number,
         }
     }
 }
@@ -38,9 +36,9 @@ export class Config {
                 settings: {
                     app: {
                         PORT: 3000,
-                        NAME: "MyApp",
+                        NAME: "Inventar System",
                         VERSION: "1.0.0",
-                        AUTHOR: "Author Name"
+                        AUTHOR: "Jafe2211"
                     },
                     log: {
                         LOG_TO_FILE: false,
@@ -50,8 +48,12 @@ export class Config {
                     security: {
                         SECRET_KEY: "your-secret-key"
                     },
-                    Modules: {
-                    
+                    database: {
+                        HOST: "",
+                        USER: "",
+                        PASSWORD: "",
+                        DATABASE:"",
+                        PORT: 3306,
                     }
                 }
             }, null, 2));

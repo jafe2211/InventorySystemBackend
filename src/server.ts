@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import app, { loadModules } from "./app";
+import app from "./app";
 import { Config } from "./utils/config";
 import { log, LogLevel } from "./utils/log";
 
@@ -13,7 +13,6 @@ export class Main {
         log(`${Config.config.settings.app.NAME} Version: ${Config.config.settings.app.VERSION} made by ${Config.config.settings.app.AUTHOR}`)
         log("powered by Modul Lib")
         log("Starting Server...", LogLevel.INFO);
-        await loadModules();
 
         app.listen(Config.config.settings.app.PORT, ()=>{
             log("Server running on Port " + Config.config.settings.app.PORT, LogLevel.SUCCESS)
